@@ -1,0 +1,8 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#33086c",
+    "titleBar.activeBackground": "#33086c",
+    "titleBar.inactiveBackground": "#33086c",
+  },
+  "window.title": "Frontend v-and-n"
+}

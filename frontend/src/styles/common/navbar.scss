@@ -1,0 +1,118 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  min-height: 5.25rem;
+  height: 100px;
+  color: #272525;
+  background-color: #FEEBEB;
+  z-index: 30;
+
+  .nav-wrap {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+    width: 100%;
+    margin: auto;
+
+    .burger {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      height: 3.25rem;
+      width: 3.25rem;
+      margin-left: 10px;
+      margin-right: 0;
+      // z-index: 999;
+
+      //  * Burger lines
+      span {
+        display: block;
+        position: relative;
+        width: 33px;
+        height: 4px;
+        margin-bottom: 5px;
+        // z-index: 101;
+
+        background: #cdcdcd;
+        border-radius: 3px;
+
+        transform-origin: 4px 0px;
+
+        transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+          background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+          opacity 0.55s ease;
+
+      }
+
+      // * Burger Transition
+      .burger-first-active {
+        transform: rotate(45deg) translate(0px, -3px);
+        background: #232323;
+      }
+      .burger-mid-active {
+        opacity: 0;
+        transform: rotate(0deg) scale(0.2, 0.2);
+      }
+      .burger-last-active {
+        transform: rotate(-45deg) translate(0, -2px);
+        background: #232323;
+      }
+    }
+
+    .logo {
+      font-family: 'Redressed', cursive;
+      font-size: 45px;
+      margin-left: 40%;
+      margin-right: auto;
+    }
+
+    .nav-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      width: 100px;
+      border-radius: 5px;
+      border: 3px solid #F0C5C5;
+      background-color: white;
+      color: #CFA7A7;
+      font-family: 'Rambla', sans-serif;
+      margin-right: 20px;
+    }
+  }
+}
+
+// * burger menu
+.menu {
+  position: absolute;
+  width: 30vw;
+  height: 100vh;
+  opacity: 90%;
+  padding: 80px;
+  padding-top: 125px;
+  // z-index: 100;
+  
+  background: #353131;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  li {
+    padding: 30px 0;
+    font-size: 30px;
+  }
+
+  li:hover {
+    color: white;
+  }
+}
+.menu-active {
+  transform: none;
+}

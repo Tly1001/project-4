@@ -1,0 +1,10 @@
+{
+  "python.pythonPath": "/Users/codehunky/.local/share/virtualenvs/project-4-J5YXZRSb/bin/python",
+  "workbench.colorTheme": "Atom One Dark",
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#5d71d4",
+    "titleBar.activeBackground": "#5d71d4",
+    "titleBar.inactiveBackground": "#5d71d4",
+  },
+  "window.title": "vn backend"
+}

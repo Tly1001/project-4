@@ -1,0 +1,47 @@
+[
+{
+  "model": "menu.servicetype",
+  "pk": 1,
+  "fields": {
+    "name": "nail"
+  }
+},
+{
+  "model": "menu.servicesubtype",
+  "pk": 1,
+  "fields": {
+    "name": "polish",
+    "service_type": 1
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 1,
+  "fields": {
+    "name": "french",
+    "price": 10,
+    "duration": 10,
+    "service_sub_type": 1
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 2,
+  "fields": {
+    "name": "colour",
+    "price": 20,
+    "duration": 30,
+    "service_sub_type": 1
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 3,
+  "fields": {
+    "name": "Plain",
+    "price": 10,
+    "duration": 20,
+    "service_sub_type": 1
+  }
+}
+]
