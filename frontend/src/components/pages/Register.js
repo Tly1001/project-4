@@ -1,19 +1,17 @@
 import React from 'react'
 import axios from 'axios'
-import { Link, useHistory } from 'react-router-dom'
-
-import { setToken } from '../../lib/auth'
+import { useHistory } from 'react-router-dom'
 
 function Register() {
-  const [error, setError] = React.useState([])
+  const [error, setError] = React.useState({})
   const [formData, setFormData] = React.useState({
-    firstName: '',
-    lastName: '',
+    first_name: '',
+    last_name: '',
     mobile: '',
     email: '',
     password: '',
-    passwordConfirmation: '',
-    wantsEmails: false,
+    password_confirmation: '',
+    wants_emails: false,
     // just cause django is annoying
     username: ''
   })
@@ -22,25 +20,36 @@ function Register() {
 
   const handleChange = event => {
     try {
-      if (event.target.name === 'email') setFormData({ ...formData, username: event.target.value })
-      setFormData({ ...formData, [event.target.name]: event.target.value })
+      const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
+      // * ternary: I want email and username to be the same value
+      event.target.name === 'email' ? setFormData({ ...formData, username: value, [event.target.name]: value }) :
+        setFormData({ ...formData, [event.target.name]: value })
       setError('')
     } catch (err) {
       console.log(err)
     }
   }
 
+  const handleErrors = () => {
+    const errors = {}
+    if (!formData.email) errors.email = 'Please enter a valid email address'
+    if (!formData.first_name) errors.first_name = 'Please enter a first name' 
+    if (!formData.last_name) errors.last_name = 'Please enter a last name'
+    if (!formData.mobile || formData.mobile.length !== 11) errors.mobile = 'Please enter a valid number'
+    if (!formData.password) errors.password = 'Please enter a password'
+    if (JSON.stringify(errors) === '{}' && formData.password === formData.password_confirmation ) errors.email = 'This email is already in use'
+    setError(errors)
+  }
+
   const handleSubmit = async event => {
     event.preventDefault()
     try {
-      console.log(formData)
-      
-      const res = await axios.post('/api/auth/register/', formData)
-      console.log(res)
-      
+      await axios.post('/api/auth/register/', formData)
+      history.pushState('/login')
+      // console.log(res)
     } catch (err) {
       console.log(err)
-      setError('Invalid Credentials')
+      handleErrors()
     }
   }
 
@@ -48,68 +57,71 @@ function Register() {
     <section className="section register-wrap">
       <div className="containers">
         <div className="columns">
-          <form onSubmit={ handleSubmit } className="column is-half is-offset-one-quarter box">
+          <form onSubmit={ handleSubmit } className="column box">
+
             <div className="field">
               <label className="label">Email</label>
               <div className="control">
                 <input 
-                  // className={ `input ${errors.email ? 'is-danger' : ''}` }
+                  className={ `input ${error.email ? 'is-danger' : ''}` }
                   placeholder="Email"
                   name="email"
                   onChange={ handleChange }
                   value={ formData.email }
                 />
               </div>
-              {/* { errors.email && <small className="help is-danger">
-                {formData.email ? 'An account with this email already exists' : errors.email }
-              </small> } */}
+              { error.email && <small className="help is-danger">
+                {formData.email ? 'An account with this email already exists' : error.email }
+              </small> }
             </div>
+
             <div className="field">
               <label className="label">First Name</label>
               <div className="control">
                 <input 
-                  // className={ `input ${errors.username ? 'is-danger' : '' }` }
+                  className={ `input ${error.first_name ? 'is-danger' : '' }` }
                   placeholder="First Name"
-                  name="firstName"
+                  name="first_name"
                   onChange={ handleChange }
-                  value={ formData.firstName }
+                  value={ formData.first_name }
                 />
               </div>
-              {/* { errors.firstName && <small className="help is-danger">{errors.firstName}</small> } */}
+              { error.first_name && <small className="help is-danger">{error.first_name}</small> }
             </div>
 
             <div className="field">
               <label className="label">Last Name</label>
               <div className="control">
                 <input 
-                  // className={ `input ${errors.password ? 'is-danger' : '' }` }
+                  className={ `input ${ error.last_name ? 'is-danger' : '' }` }
                   placeholder="Last Name"
-                  name="lastName"
+                  name="last_name"
                   onChange={ handleChange }
-                  value={ formData.lastName }
+                  value={ formData.last_name }
                 />
               </div>
-              {/* { errors.lastName && <small className="help is-danger">{errors.lastName}</small> } */}
+              { error.last_name && <small className="help is-danger">{error.last_name}</small> }
             </div>
 
             <div className="field">
               <label className="label">Phone Number</label>
               <div className="control">
                 <input 
-                  // className={ `input ${errors.username ? 'is-danger' : '' }` }
+                  className={ `input ${ error.mobile ? 'is-danger' : '' }` }
                   placeholder="Phone Number"
                   name="mobile"
                   onChange={ handleChange }
                   value={ formData.mobile }
                 />
               </div>
-              {/* { errors.username && <small className="help is-danger">{errors.username}</small> } */}
+              { error.mobile && <small className="help is-danger">{error.mobile}</small> }
             </div>
+
             <div className="field">
               <label className="label">Password</label>
               <div className="control">
                 <input 
-                  // className={ `input ${errors.password ? 'is-danger' : ''}` }
+                  className={ `input ${error.password ? 'is-danger' : ''}` }
                   type="password"
                   placeholder="Password"
                   name="password"
@@ -117,49 +129,67 @@ function Register() {
                   value={ formData.password }
                 />
               </div>
-              {/* { errors.password && <small className="help is-danger">{errors.password}</small> } */}
+              { error.password && <small className="help is-danger">{error.password}</small> }
             </div>
+
             <div className="field">
               <label className="label">Password Confirmation</label>
               <div className="control">
                 <input 
                   type="password"
-                  // className={ `input ${errors.passwordConfirmation ? 'is-danger' : ''}` }
+                  className={ `input ${ formData.password !== formData.password_confirmation ? 'is-danger' : ''}` }
                   placeholder="Password Confirmation"
-                  name="passwordConfirmation"
+                  name="password_confirmation"
                   onChange={ handleChange }
-                  value={ formData.passwordConfirmation }
+                  value={ formData.password_confirmation }
                 />
               </div>
-              {/* { errors.passwordConfirmation && <small className="help is-danger">Your entered passwords do not match</small> } */}
+              { formData.password !== formData.password_confirmation && <small className="help is-danger">Your entered passwords do not match</small> }
             </div>
-            <div className="field">
+
+            {/* <div className="field">
               <label className="label">Would you like to recieve discounts, updates, and promotions via email?</label>
               <div className="control">
                 <label className="radio">
                   <input
                     type="radio"
-                    name="wantsEmails"
+                    name="wants_emails"
                     value="yes"
                     onChange={ handleChange }
-                    checked={ formData.wantsEmails === 'yes' }
+                    checked={ formData.wants_emails === 'yes' }
                   />
                     yes
                 </label>
                 <label className="radio">
                   <input
                     type="radio"
-                    name="wantsEmails"
+                    name="wants_emails"
                     value="no"
                     onChange={ handleChange }
-                    checked={ formData.wantsEmails === 'no' }
+                    checked={ formData.wants_emails === 'no' }
                   />
                     no
                 </label>
               </div>
-            </div>
+            </div> */}
+
             <div className="field">
-              <button type="submit" className="button is-fullwidth is-rounded is-warning">Register</button>
+              <div className="inline">
+                <label className="checkbox label tickbox">
+                  <input
+                  // className="tick"
+                    type="checkbox"
+                    name="wants_emails"
+                    checked={formData.wants_emails}
+                    onChange={handleChange}
+                  />
+                </label>
+                <p>Would you like to recieve discounts, updates, and promotions via email?</p>
+              </div>
+            </div>
+
+            <div className="field">
+              <button type="submit" className="button is-fullwidth pink">Register</button>
             </div>
           </form>
         </div>

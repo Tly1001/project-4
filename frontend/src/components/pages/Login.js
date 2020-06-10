@@ -27,6 +27,7 @@ function Login() {
     try {
       const res = await axios.post('/api/auth/login/', formData)
       setToken(res.data.token)
+      // history.pushState('/booking')
     } catch (err) {
       console.log(err)
       setError('Invalid Credentials')
@@ -34,13 +35,13 @@ function Login() {
   }
 
   return (
-    <section className="section">
+    <section className="section register-wrap">
       <div className="containers">
-        <div className="columns">
+        <div className="column">
           <form 
             onSubmit={handleSubmit} 
-            className="column is-half is-offset-one-quarter box"
-          >
+            className="column box">
+
             <div className="field">
               <label className="label">Email</label>
               <div className="control">
@@ -53,6 +54,7 @@ function Login() {
                 />
               </div>
             </div>
+
             <div className="field">
               <label className="label">Password</label>
               <div className="control">
@@ -67,9 +69,14 @@ function Login() {
               </div>
               {error && <small className="help is-danger">{error}</small>}
             </div>
+
             <div className="field">
-              <button type="submit" className="button is-fullwidth is-rounded is-warning">Login</button>
+              <button 
+                type="submit" 
+                className="button is-fullwidth pink"
+              >Login</button>
             </div>
+
             <div className="field">
               <p className="textAlign">Don&apos;t have a login? <Link to="/register" > Register here</Link></p>
             </div>

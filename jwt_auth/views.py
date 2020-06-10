@@ -16,6 +16,7 @@ class RegisterView(APIView):
 
     def post(self, request):
         created_user = UserSerializer(data=request.data)
+        print(created_user)
         if created_user.is_valid():
             created_user.save()
             return Response({'message': 'Registration Succesful'}, status=status.HTTP_201_CREATED)
@@ -30,7 +31,6 @@ class LoginView(APIView):
             raise PermissionDenied()
 
     def post(self, request):
-        print('hello mum')
         email = request.data.get('email')
         password  = request.data.get('password')
         user = self.get_user(email)

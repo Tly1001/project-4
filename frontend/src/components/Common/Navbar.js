@@ -23,8 +23,7 @@ function Navbar() {
             <span className={`${ navbarOpen ? 'burger-last-active' : '' }`}></span>
           </span>
           <Link className="logo" to="/"><h1>V & N Beauty and Nails</h1></Link>
-          
-          <p className='nav-button'>Sign in</p>
+          <Link className="nav-button" to="/login"><p>Log in</p></Link>
         </div>
       </nav>
       <ul className={`menu ${ navbarOpen ? 'menu-active' : '' }`}>

@@ -49,7 +49,7 @@
 
       }
 
-      // * Burger Transition
+      // * Burger Transition to X
       .burger-first-active {
         transform: rotate(45deg) translate(0px, -3px);
         background: #232323;
@@ -69,6 +69,7 @@
       font-size: 45px;
       margin-left: 40%;
       margin-right: auto;
+      color: black;
     }
 
     .nav-button {
