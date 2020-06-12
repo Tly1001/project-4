@@ -22,6 +22,11 @@ function Bookings() {
   const [myBookings, setMyBookings] = React.useState(initialState)
   const [services, setServices] = React.useState(initialState)
   const [newBooking, setNewBooking] = React.useState(null)
+  const [serviceChoice, setServiceChoice] = React.useState({
+    type: '',
+    sub: '',
+    service: ''
+  })
   const history = useHistory()
 
   
@@ -57,11 +62,14 @@ function Bookings() {
       start_time,
       end_time
     })
-
-
-
-    
   }
+
+
+  const handleType = (event, category) => {
+    console.log(event)
+    setServiceChoice({ ...serviceChoice, [category]: event })
+  }
+
 
 
 
@@ -84,9 +92,28 @@ function Bookings() {
               
                 services.data.map( type => {
                   const services = []
-                  services.push(<div key={`booking${type.name}`} className="type">{type.name}</div>)
+                  services.push(
+                    <div key={`booking${type.name}`} 
+                      className={`btn type 
+                      ${serviceChoice.type ? serviceChoice.type  !== type.name ? 'type-hide' : '' : ''}`} 
+                      onClick={() => handleType(type.name, 'type')} 
+                      value={type.name}>{type.name}
+                    </div>
+                  )
                   type.sub_services.map( sub => {
-                    services.push(<div key={`booking${sub.name}`}>{sub.name}</div>)
+                    services.push(
+                      <div key={`booking${sub.name}`} 
+                        className={`btn sub ${serviceChoice.type === type.name ? type.name : ''}`}
+                        onClick={() => handleType(sub.name, 'sub')}>
+                        {sub.name}</div>)
+                    sub.services.map(service => {
+                      services.push(
+                        <p 
+                          key={service.name} 
+                          className={`btn service ${serviceChoice.type  === type.name && serviceChoice.service === service.name ? 'show' : '' }`}>
+                          {service.name}</p>
+                      )
+                    })
                   })
                   return services
                 })
@@ -119,31 +146,5 @@ function Bookings() {
     </>
   )
 }
-
-
-// class Bookings extends React.Component {
-//   render() {
-//     return (
-//       <ReactBooking
-//         title="Booking"
-//         description="Setup your booking"
-//         historyType="memory"
-//         paymentMethods={{ cash: true, online: false }}
-//         appointments={[
-//           {
-//             id: 1,
-//             start: new Date(2019, 6, 10, 10, 30),
-//             end: new Date(2019, 6, 10, 10, 45),
-//             capacity: 10,
-//             price: {
-//               amount: 10,
-//               curr: '$'
-//             }
-//           }
-//         ]}
-//       />
-//     )
-//   }
-// }
 
 export default Bookings
