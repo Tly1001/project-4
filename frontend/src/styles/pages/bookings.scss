@@ -3,13 +3,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
 
   .new-booking {
     // height: 100px;
     width: 30%;
     margin: 50px 0;
-    border: 1px solid black;
+    margin-top: 20vh;
+    border: 10px solid rgb(212, 159, 159);
+    padding: 10px;
+    border-radius: 10px;
 
     .services-wrap {
       display: flex;
@@ -22,9 +25,15 @@
       }
 
       .type {
+        text-align: center;
         font-weight: 600;
         font-size: 20px;
-        margin-right: 10%;
+        margin-right: auto;
+        text-decoration: underline;
+      }
+
+      .sub {
+        font-weight: 600;
       }
 
 
@@ -44,10 +53,26 @@
       }
 
       .btn:hover {
-        background-color: lightcoral;
+        border: 5px solid rgb(219, 169, 169);
+        background-color: rgb(155, 149, 149);
+        padding: 15px;
+        color: white;
         border-radius: 5px;
       }
       
+    }
+    .submit {
+      text-align: center;
+      border: 5px solid pink;
+      padding: 10px;
+      width: 100px;
+      border-radius: 10px;
+      margin: 0 auto;
+    }
+    .submit:hover{
+      background-color: lightblue;
+      color: white;
+      cursor: pointer;
     }
   }
 
@@ -58,8 +83,10 @@
     align-items: center;
     // height: 20vh;
     width: 30%;
-    border: 1px solid red;
+    border: 10px solid rgb(212, 159, 159);
+    border-radius: 10px;
     padding: 50px;
+    margin-bottom: 10vh;
     div {
       margin: 20px 0;
     }

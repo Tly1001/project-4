@@ -16,3 +16,8 @@ export const getServices = () => {
 export const getMyBookings = () => {
   return axios.get(`${baseUrl}/booking/`, withHeaders())
 }
+
+export const postNewBooking = (data) => {
+  return axios.post(`${baseUrl}/booking/`, data, withHeaders())
+}
+

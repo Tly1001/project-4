@@ -8,7 +8,7 @@ import Spinner from '../Common/Spinner'
 import TimePicker from '../Common/TimePicker'
 // import TimePicker2 from '../Common/TimePicker2'
 
-import { getServices } from '../../lib/api'
+import { getServices, postNewBooking } from '../../lib/api'
 import { useHistory } from 'react-router-dom'
 import { getMyBookings } from '../../lib/api'
 
@@ -29,19 +29,19 @@ function Bookings() {
   })
   const history = useHistory()
 
+  const getData = async () => {
+    try {
+      const res = await getMyBookings()
+      const services = await getServices()
+      setServices({ data: services.data })
+      setMyBookings({ data: res.data, loading: false, error: null })
+      console.log(res.data)
+    } catch (err) {
+      setMyBookings({ data: {}, loading: true, error: true })
+    }
+  }
   
   React.useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await getMyBookings()
-        const services = await getServices()
-        setServices({ data: services.data })
-        setMyBookings({ data: res.data, loading: false, error: null })
-        console.log(res.data)
-      } catch (err) {
-        setMyBookings({ data: {}, loading: true, error: true })
-      }
-    }
     getData()
   }, [history])
 
@@ -53,14 +53,12 @@ function Bookings() {
     const start_time = moment(data).format('H:mm:ss')
 
     // * minutes add
-    const end_time = moment(start_time, 'H:mm:ss').add(10, 'm').format('H:mm:ss')
-    // console.log(data)
-    // console.log(date)
-    // console.log(time)
+    const end_time = moment(start_time, 'H:mm:ss').add(30, 'm').format('H:mm:ss')
+    
     setNewBooking({
-      date,
-      start_time,
-      end_time
+      date: date,
+      start_time: start_time,
+      end_time: end_time
     })
   }
 
@@ -68,6 +66,19 @@ function Bookings() {
   const handleType = (event, category) => {
     console.log(event)
     setServiceChoice({ ...serviceChoice, [category]: event })
+    // if(category === 'service') setNewBooking(...newBooking, {service: event})
+  }
+
+  const handleSubmit = () => {
+    const req = ({ 
+      service: serviceChoice.service,
+      date: newBooking.date,
+      start_time: newBooking.start_time,
+      end_time: newBooking.end_time
+    })
+    console.log(req)
+    postNewBooking(req)
+    getData()
   }
 
 
@@ -110,8 +121,11 @@ function Bookings() {
                       services.push(
                         <p 
                           key={service.name} 
-                          className={`btn service ${serviceChoice.type  === type.name && serviceChoice.service === service.name ? 'show' : '' }`}>
-                          {service.name}</p>
+                          className={`btn service ${serviceChoice.type  === type.name && serviceChoice.sub === sub.name ? 'show' : '' }`}
+                          onClick={() => handleType(service.id, 'service')}
+                        >
+                          {service.name}
+                        </p>
                       )
                     })
                   })
@@ -120,6 +134,12 @@ function Bookings() {
               
               }
             </div>
+            <p 
+              className="submit"
+              onClick={handleSubmit}
+            >
+              Submit
+            </p>
           </div>
           
         </div>

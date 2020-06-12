@@ -10,7 +10,7 @@ mobiscroll.settings = {
 
 const now = new Date()
 const until = new Date(now.getFullYear() + 10, now.getMonth())
-const invTime = [{ start: '19:01', end: '9:59' },{ start: new Date(2010, 11, 20), end: new Date(now.getDay - 1) }]
+const invTime = [{ start: '19:01', end: '9:59' },{ start: new Date(2010, 11, 20), end: new Date(now.getDay) }]
 
 class TimePicker extends React.Component {
   state = {
@@ -19,7 +19,8 @@ class TimePicker extends React.Component {
   
       setData = (event, inst) => {
         const data = inst.getVal()
-        if (data) return this.props.onSet( data )
+        // if (data) return 
+        this.props.onSet( data )
       }
 
       render() {
