@@ -1,5 +1,10 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+import { isAuthenticated } from '../../lib/auth'
+
+import Map from '../Common/Map'
+
 function Location() {
   return (
     <>
@@ -20,11 +25,10 @@ function Location() {
             <p className="bold">Booking is just a tap away</p>
             <p>You can now make, change, and cancel your bookings through our website. Alternatively if you would like to contact us, feel free to call us on <span className="bold">020 7498 2370</span></p>
           </div>
-          <p className="link-btn">Book now</p>
+          {isAuthenticated() ? <Link className="" to="/bookings"><p className="link-btn">Book now</p></Link> :
+            <Link className="" to="/login"><p className="link-btn">Book now</p></Link>}
         </div>
-        <figure className="image image-section">
-          <img src="https://i.imgur.com/C2gzuen.jpg" alt="nails" loading="lazy"/>
-        </figure>
+        <div className="map"><Map/></div>
       </section>
     </>
   )

@@ -9,6 +9,8 @@ import './styles/pages/home.scss'
 import './styles/pages/location.scss'
 import './styles/pages/login.scss'
 import './styles/pages/register.scss'
+import './styles/pages/bookings.scss'
+import './styles/pages/menu.scss'
 
 
 import App from './App'

@@ -36,7 +36,11 @@ function Register() {
     if (!formData.first_name) errors.first_name = 'Please enter a first name' 
     if (!formData.last_name) errors.last_name = 'Please enter a last name'
     if (!formData.mobile || formData.mobile.length !== 11) errors.mobile = 'Please enter a valid number'
-    if (!formData.password) errors.password = 'Please enter a password'
+    if (!formData.password) {
+      errors.password = 'Please enter a password'
+    } else if (formData.password.length < 8) {
+      errors.password = 'Password must be 8 characters or longer with a number and symbol(!/.*$£)'
+    }
     if (JSON.stringify(errors) === '{}' && formData.password === formData.password_confirmation ) errors.email = 'This email is already in use'
     setError(errors)
   }
@@ -45,7 +49,7 @@ function Register() {
     event.preventDefault()
     try {
       await axios.post('/api/auth/register/', formData)
-      history.pushState('/login')
+      history.push('/login')
       // console.log(res)
     } catch (err) {
       console.log(err)
@@ -146,32 +150,6 @@ function Register() {
               </div>
               { formData.password !== formData.password_confirmation && <small className="help is-danger">Your entered passwords do not match</small> }
             </div>
-
-            {/* <div className="field">
-              <label className="label">Would you like to recieve discounts, updates, and promotions via email?</label>
-              <div className="control">
-                <label className="radio">
-                  <input
-                    type="radio"
-                    name="wants_emails"
-                    value="yes"
-                    onChange={ handleChange }
-                    checked={ formData.wants_emails === 'yes' }
-                  />
-                    yes
-                </label>
-                <label className="radio">
-                  <input
-                    type="radio"
-                    name="wants_emails"
-                    value="no"
-                    onChange={ handleChange }
-                    checked={ formData.wants_emails === 'no' }
-                  />
-                    no
-                </label>
-              </div>
-            </div> */}
 
             <div className="field">
               <div className="inline">

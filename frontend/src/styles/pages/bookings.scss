@@ -1,0 +1,23 @@
+.bookings-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .new-booking {
+    // height: 100px;
+    width: 30%;
+    margin: 50px 0;
+    border: 1px solid black;
+    .services-wrap {
+      display: flex;
+    }
+  }
+
+  .user-bookings {
+    height: 100px;
+    width: 30%;
+    border: 1px solid red;
+  }
+}

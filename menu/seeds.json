@@ -7,6 +7,13 @@
   }
 },
 {
+  "model": "menu.servicetype",
+  "pk": 2,
+  "fields": {
+    "name": "Massage"
+  }
+},
+{
   "model": "menu.servicesubtype",
   "pk": 1,
   "fields": {
@@ -15,10 +22,26 @@
   }
 },
 {
+  "model": "menu.servicesubtype",
+  "pk": 2,
+  "fields": {
+    "name": "Head",
+    "service_type": 2
+  }
+},
+{
+  "model": "menu.servicesubtype",
+  "pk": 3,
+  "fields": {
+    "name": "Body",
+    "service_type": 2
+  }
+},
+{
   "model": "menu.service",
   "pk": 1,
   "fields": {
-    "name": "french",
+    "name": "French",
     "price": 10,
     "duration": 10,
     "service_sub_type": 1
@@ -28,7 +51,7 @@
   "model": "menu.service",
   "pk": 2,
   "fields": {
-    "name": "colour",
+    "name": "Colour",
     "price": 20,
     "duration": 30,
     "service_sub_type": 1
@@ -42,6 +65,36 @@
     "price": 10,
     "duration": 20,
     "service_sub_type": 1
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 4,
+  "fields": {
+    "name": "Neck massage",
+    "price": 15,
+    "duration": 20,
+    "service_sub_type": 2
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 5,
+  "fields": {
+    "name": "Face Massage",
+    "price": 25,
+    "duration": 30,
+    "service_sub_type": 2
+  }
+},
+{
+  "model": "menu.service",
+  "pk": 6,
+  "fields": {
+    "name": "Back massage",
+    "price": 30,
+    "duration": 40,
+    "service_sub_type": 3
   }
 }
 ]

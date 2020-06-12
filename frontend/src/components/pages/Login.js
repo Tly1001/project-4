@@ -27,7 +27,7 @@ function Login() {
     try {
       const res = await axios.post('/api/auth/login/', formData)
       setToken(res.data.token)
-      // history.pushState('/booking')
+      history.push('/bookings')
     } catch (err) {
       console.log(err)
       setError('Invalid Credentials')

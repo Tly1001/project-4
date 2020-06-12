@@ -2,7 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
-# import django.contrib.auth.password_validation as validations
+import django.contrib.auth.password_validation as validations
+
+# import BookingSerializer 'bookings' = bookingSerializer(many=True)
 
 User = get_user_model()
 
@@ -16,10 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
         password_confirmation = data.pop('password_confirmation')
         if password != password_confirmation:
             raise ValidationError({'password_confiramtion': 'does not match'})
-        # try:
-        #     validations.validate_password(password=password)
-        # except ValidationError as err:
-        #     raise serializers.ValidationError({'password': err.messages})
+        try:
+            validations.validate_password(password=password)
+        except ValidationError as err:
+            raise serializers.ValidationError({'password': err.messages})
         data['password'] = make_password(password)
         return data
         

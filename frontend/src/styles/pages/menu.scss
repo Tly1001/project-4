@@ -1,0 +1,45 @@
+.menu-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  
+  .services {
+    height: 80vh;
+    width: 40%;
+    overflow: scroll;
+    
+    .type {
+      font-size: 30px;
+      text-align: center;
+      margin: 40px 0;
+      text-decoration: underline;
+    }
+
+    .sub-type {
+      font-size: 25px;
+      text-align: right;
+      margin-bottom: 30px;
+    }
+
+    .service-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .service {
+        font-size: 20px;
+      }
+
+      .service-info {
+        // font-size: 20px;
+        // line-height: 100%;
+        span {
+          color: rgb(224, 121, 121);
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

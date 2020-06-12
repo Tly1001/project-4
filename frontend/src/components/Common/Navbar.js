@@ -1,12 +1,20 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
+import { isAuthenticated, logout } from '../../lib/auth'
 
 function Navbar() {
   const [navbarOpen, setNavbarOpen] = React.useState(false)
   const { pathname } = useLocation()
 
+  const history = useHistory()
+
   const toggleNavbar = () => {
     setNavbarOpen(!navbarOpen)
+  }
+
+  const handleLogout = () => {
+    logout()
+    history.push('/login')
   }
 
   React.useEffect(() => {
@@ -23,17 +31,19 @@ function Navbar() {
             <span className={`${ navbarOpen ? 'burger-last-active' : '' }`}></span>
           </span>
           <Link className="logo" to="/"><h1>V & N Beauty and Nails</h1></Link>
-          <Link className="nav-button" to="/login"><p>Log in</p></Link>
+          {!isAuthenticated() && <Link className="nav-button" to="/login"><p>Log in</p></Link>}
+          {isAuthenticated() && <p onClick={handleLogout} className="nav-button">Log out</p>}
         </div>
       </nav>
       <ul className={`menu ${ navbarOpen ? 'menu-active' : '' }`}>
         <Link className="" to="/"><li>Home</li></Link>
-        <li>Bookings</li>
-        <li>Treatment Menu</li>
+        {isAuthenticated() ? <Link className="" to="/bookings"><li>Bookings</li></Link> :
+          <Link className="" to="/login"><li>Bookings</li></Link>}
+        <Link className="" to="/menu"><li>Treatment Menu</li></Link>
         <Link className="" to="/location"><li>Location</li></Link>
-        <Link className="" to="/login"><li>Log in</li></Link>
-        <Link className="" to="/register"><li>Register</li></Link>
-        <li>Log out</li>
+        {!isAuthenticated() && <Link className="" to="/login"><li>Log in</li></Link>}
+        {!isAuthenticated() && <Link className="" to="/register"><li>Register</li></Link>}
+        {isAuthenticated() && <li onClick={handleLogout}>Log out</li>}
       </ul>
     </>
   )

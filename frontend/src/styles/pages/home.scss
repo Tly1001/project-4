@@ -15,6 +15,11 @@
     img {
       height: auto;
       border-radius: 5px;
+
+      animation-name: multiple-image-crossfade;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-duration: 5s;
     }
   }
 
@@ -55,9 +60,26 @@
         border-radius: 5px;
         padding: 10px;
       }
+      
     }
   }
 
-
+  @keyframes multiple-image-crossfade {
+    0% {
+      opacity:0;
+    }
+    20% {
+      opacity:0;
+    }
+    35% {
+      opacity:1;
+    }
+    85% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
 
 }

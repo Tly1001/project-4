@@ -12,6 +12,17 @@ body {
   background-color: #FEEBEB;
 }
 
+.link-btn {
+  color: black;
+  
+}
+
+.link-btn:hover {
+  background-color: rgb(201, 152, 152);
+  font-weight: 600;
+  color: white;
+}
+
 // <link href="https://fonts.googleapis.com/css2?family=Rambla:wght@700&family=Redressed&family=Roboto+Condensed:ital@1&display=swap" rel="stylesheet">
 // font-family: 'Rambla', sans-serif;
 // font-family: 'Redressed', cursive;

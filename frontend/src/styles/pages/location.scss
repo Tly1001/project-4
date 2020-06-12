@@ -59,18 +59,12 @@
       border-radius: 5px;
       padding: 10px;
     }
-
   }
 
-  .image-section {
+  .map {
+
     display: flex;
     align-items: center;
     width: 40%;
-    z-index: -10;
-
-    img {
-      height: auto;
-      border-radius: 5px;
-    }
   }
 }

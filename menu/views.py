@@ -16,7 +16,6 @@ class MenuView(APIView):
         services_types = ServiceType.objects.all()
         serialized_services = PopulatedServiceTypeSerializer(services_types, many=True)
         return Response(serialized_services.data, status=status.HTTP_200_OK)
-        # return Response(sub_nested_services.data, status=status.HTTP_200_OK)
 
     # def post(self, request):
     #     # request.data['name'] = request.user.id
