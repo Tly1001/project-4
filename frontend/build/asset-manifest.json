@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c2ad8dc6.chunk.css",
+    "main.js": "/static/js/main.e42827cc.chunk.js",
+    "main.js.map": "/static/js/main.e42827cc.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.fc75219d.js",
+    "runtime-main.js.map": "/static/js/runtime-main.fc75219d.js.map",
+    "static/css/2.8bf32ebd.chunk.css": "/static/css/2.8bf32ebd.chunk.css",
+    "static/js/2.8b996ae2.chunk.js": "/static/js/2.8b996ae2.chunk.js",
+    "static/js/2.8b996ae2.chunk.js.map": "/static/js/2.8b996ae2.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.d52578fcdc16fb98722a815848f4c3ce.js": "/precache-manifest.d52578fcdc16fb98722a815848f4c3ce.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.8bf32ebd.chunk.css.map": "/static/css/2.8bf32ebd.chunk.css.map",
+    "static/css/main.c2ad8dc6.chunk.css.map": "/static/css/main.c2ad8dc6.chunk.css.map",
+    "static/js/2.8b996ae2.chunk.js.LICENSE.txt": "/static/js/2.8b996ae2.chunk.js.LICENSE.txt",
+    "static/media/mobiscroll.min.css": "/static/media/icons_mobiscroll.c405c13e.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fc75219d.js",
+    "static/css/2.8bf32ebd.chunk.css",
+    "static/js/2.8b996ae2.chunk.js",
+    "static/css/main.c2ad8dc6.chunk.css",
+    "static/js/main.e42827cc.chunk.js"
+  ]
+}
