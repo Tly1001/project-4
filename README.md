@@ -57,11 +57,7 @@ This was a website I made for my mum's beauty salon, where my main focus for thi
 
 ### Menu Page
 
-<img src="https://imgur.com/r71gXD8.jpg">
-
-### Booking Page
-
-<img src="https://imgur.com/r71gXD8.jpg">
+<img src="https://imgur.com/arodbCp.jpg">
 
 ---
 
