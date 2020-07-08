@@ -100,6 +100,37 @@ Here are the relationships for the backend.
 The functionality is to pass the menu to the frontend in a nested package so that it can cleanly be mapped in the frontend. Connecting from the top, a service such as 'massage' has sub-services such as 'head' or 'neck', and sub-services are broken into singular services such as 'head massage' or 'back massage'.
 
 ```
+class ServiceType(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return f'{self.name}'
+
+class ServiceSubType(models.Model):
+    name = models.CharField(max_length=50)
+    service_type = models.ForeignKey(
+        ServiceType,
+        related_name='sub_services',
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return f'{self.name}'
+
+class Service(models.Model):
+    name = models.CharField(max_length=80)
+    price = models.IntegerField()
+    duration = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(240)])
+    service_sub_type = models.ForeignKey(
+        ServiceSubType,
+        related_name='services',
+        on_delete=models.PROTECT
+    )
+
+    def __str__(self):
+        return f'{self.name} £{self.price} / {self.duration}mins'
+```
+
+```
 class ServiceSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -188,6 +219,188 @@ function Menu() {
 export default Menu
 ```
 
+### Booking
+
+The booking model consists of a service, userId, and date/time.
+
+```
+class Booking(models.Model):
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    service = models.ForeignKey('menu.Service', related_name='bookings', on_delete=models.PROTECT)
+    owner = models.ForeignKey('jwt_auth.User', related_name='bookings', on_delete=models.PROTECT)
+
+    # * for admin reference or comparison of booking
+    timestamp = models.DateTimeField(default=now)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['date', 'start_time', 'end_time'], name='time slot taken')
+        ]
+
+    def __str__(self): 
+        return f'Booking: {self.service} Time: {self.start_time} - {self.end_time} Client: {self.owner}'
+```
+
+The booking is made on the page for the logged in user, picking date, time, and service.
+It is then shown lower on the page and calculates the end time by adding the time picked with the service duration.
+
+```
+const initialState = {
+  data: null,
+  error: null,
+  loading: true
+}
+
+function Bookings() {
+  const [myBookings, setMyBookings] = React.useState(initialState)
+  const [services, setServices] = React.useState(initialState)
+  const [newBooking, setNewBooking] = React.useState(null)
+  const [serviceChoice, setServiceChoice] = React.useState({
+    type: '',
+    sub: '',
+    service: ''
+  })
+  const history = useHistory()
+
+  const getData = async () => {
+    try {
+      const res = await getMyBookings()
+      const services = await getServices()
+      setServices({ data: services.data })
+      setMyBookings({ data: res.data, loading: false, error: null })
+      console.log(res.data)
+    } catch (err) {
+      setMyBookings({ data: {}, loading: true, error: true })
+    }
+  }
+  
+  React.useEffect(() => {
+    getData()
+  }, [history])
+
+  const handleDateData = data => {
+    // * date
+    const date = moment(data).format('YYYY-MM-DD')
+
+    // * start time
+    const start_time = moment(data).format('H:mm:ss')
+
+    // * minutes add
+    const end_time = moment(start_time, 'H:mm:ss').add(30, 'm').format('H:mm:ss')
+    
+    setNewBooking({
+      date: date,
+      start_time: start_time,
+      end_time: end_time
+    })
+  }
+
+
+  const handleType = (event, category) => {
+    console.log(event)
+    setServiceChoice({ ...serviceChoice, [category]: event })
+    // if(category === 'service') setNewBooking(...newBooking, {service: event})
+  }
+
+  const handleSubmit = () => {
+    const req = ({ 
+      service: serviceChoice.service,
+      date: newBooking.date,
+      start_time: newBooking.start_time,
+      end_time: newBooking.end_time
+    })
+    console.log(req)
+    postNewBooking(req)
+    getData()
+  }
+  
+  return (
+    <>
+      <section className="bookings-wrap">
+        <div className="new-booking">
+            New Booking
+          <div>
+            <TimePicker
+              // value={dateTime}
+              onSet={handleDateData}
+            />
+            <div className="services-wrap">
+              { services.loading ?
+                <Spinner />
+                :
+              // * Service choices
+              
+                services.data.map( type => {
+                  const services = []
+                  services.push(
+                    <div key={`booking${type.name}`} 
+                      className={`btn type 
+                      ${serviceChoice.type ? serviceChoice.type  !== type.name ? 'type-hide' : '' : ''}`} 
+                      onClick={() => handleType(type.name, 'type')} 
+                      value={type.name}>{type.name}
+                    </div>
+                  )
+                  type.sub_services.map( sub => {
+                    services.push(
+                      <div key={`booking${sub.name}`} 
+                        className={`btn sub ${serviceChoice.type === type.name ? type.name : ''}`}
+                        onClick={() => handleType(sub.name, 'sub')}>
+                        {sub.name}</div>)
+                    sub.services.map(service => {
+                      services.push(
+                        <p 
+                          key={service.name} 
+                          className={`btn service ${serviceChoice.type  === type.name && serviceChoice.sub === sub.name ? 'show' : '' }`}
+                          onClick={() => handleType(service.id, 'service')}
+                        >
+                          {service.name}
+                        </p>
+                      )
+                    })
+                  })
+                  return services
+                })
+              
+              }
+            </div>
+            <p 
+              className="submit"
+              onClick={handleSubmit}
+            >
+              Submit
+            </p>
+          </div>
+          
+        </div>
+        <div className="user-bookings" onClick={() => console.log(newBooking)}>
+          { myBookings.loading ?
+            <Spinner />
+            :
+          // * user bookings
+            myBookings.data.map(booking => {
+              const bookings = []
+              bookings.push(
+                <div key={`booking${booking.id}`} className="">
+                  {booking.date} 
+                  <p>{booking.service.name} {booking.start_time} - {booking.end_time}</p>
+                </div>
+              )
+              
+              return bookings
+            })
+          }
+          
+        </div>
+      </section>
+    </>
+  )
+}
+
+export default Bookings
+```
+
 ## Wins and Blockers
 
 The biggest challenge was implimenting the booking system, I struggled to think of the logic with how it would work. Then when I got down to getting a time picker, the data being given turned out to be used from a framework called Moment.JS that was new to me.
@@ -217,4 +430,4 @@ This was a big issue with both the time picker and my logic for it. The app init
 
 ## Key Lessons Learnt
 
-From this project I learned a basic grasp of Django with serializers, views, and also how app relationships work. This project felt small scale but what I learned in the process was invaluble to my future progress with the Django framework and PostgreSQL.
+From this project I learned a basic grasp of Django with models, serializers, views, and also how app relationships work. This project felt small scale but what I learned in the process was invaluble to my future progress with the Django framework and PostgreSQL.
