@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-4.10.3.tgz",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.9.0",
     "eslint-plugin-react": "^7.20.0",
     "http-proxy-middleware": "^1.0.4",
